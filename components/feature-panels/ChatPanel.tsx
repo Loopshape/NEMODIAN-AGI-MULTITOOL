@@ -14,15 +14,22 @@ interface ChatPanelProps {
 const ChatPanel: React.FC<ChatPanelProps> = ({ setStatusMessage }) => {
     const [history, setHistory] = useState<ChatMessage[]>([]);
     const [prompt, setPrompt] = useState('');
+    const [systemPrompt, setSystemPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const chatRef = useRef<Chat | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
+    // Effect to initialize/re-initialize chat session when systemPrompt changes
     useEffect(() => {
-        chatRef.current = createChatSession(MODEL_FLASH);
-        setStatusMessage('Chat session started. Type a message to begin.');
+        setHistory([]); // Clear history on new session
+        chatRef.current = createChatSession(MODEL_FLASH, systemPrompt.trim() || undefined);
+        if (systemPrompt.trim()) {
+            setStatusMessage('Chat session re-initialized with new system instruction.');
+        } else {
+            setStatusMessage('Chat session started. Type a message to begin.');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [systemPrompt]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -71,6 +78,19 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ setStatusMessage }) => {
 
     return (
         <div className="flex flex-col h-full p-4 gap-4">
+            <h2 className="text-lg font-bold text-[#f0f0e0]">Chat</h2>
+            <div className="flex flex-col gap-2">
+                <label htmlFor="system-prompt" className="text-sm font-bold text-[#f0f0e0]">System Instruction (Optional)</label>
+                <textarea
+                    id="system-prompt"
+                    value={systemPrompt}
+                    onChange={(e) => setSystemPrompt(e.target.value)}
+                    placeholder="e.g., You are a friendly helpful assistant, always respond with a positive tone."
+                    className="w-full p-2 rounded bg-[#22241e] border border-[#4a4c41] focus:outline-none focus:ring-1 focus:ring-[#4ac94a] resize-none"
+                    rows={3}
+                    disabled={isLoading}
+                />
+            </div>
             <div className="flex-1 bg-[#22241e] rounded-lg p-4 overflow-y-auto space-y-4">
                 {history.map((msg, index) => (
                     <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>

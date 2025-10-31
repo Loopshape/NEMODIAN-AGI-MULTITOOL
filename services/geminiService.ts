@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, GenerateContentResponse, Chat, GroundingChunk, GenerateContentCandidate, Modality } from "@google/genai";
 import { ChatMessage } from '../types';
 
@@ -33,9 +34,13 @@ export const generateText = async (model: string, prompt: string, useThinking: b
     }
 };
 
-export const createChatSession = (model: string): Chat => {
+export const createChatSession = (model: string, systemInstruction?: string): Chat => {
     const aiInstance = getAi();
-    return aiInstance.chats.create({ model });
+    const config: any = {};
+    if (systemInstruction) {
+        config.systemInstruction = systemInstruction;
+    }
+    return aiInstance.chats.create({ model, config: Object.keys(config).length > 0 ? config : undefined });
 };
 
 export const streamChatMessage = (chat: Chat, message: string): Promise<AsyncGenerator<GenerateContentResponse>> => {
