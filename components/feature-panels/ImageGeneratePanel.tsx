@@ -53,6 +53,7 @@ const ImageGeneratePanel: React.FC<ImageGeneratePanelProps> = ({ setStatusMessag
                     {ASPECT_RATIOS.map(ratio => <option key={ratio} value={ratio}>{ratio}</option>)}
                  </select>
                 <Button onClick={handleGenerate} isLoading={isLoading}>Generate Image</Button>
+                <Button onClick={handleGenerate} isLoading={isLoading}>Retry</Button>
             </div>
             <div className="flex-1 mt-4 bg-[#22241e] rounded-lg flex items-center justify-center overflow-hidden">
                 {isLoading && <div className="text-[#999966]">Generating...</div>}

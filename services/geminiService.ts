@@ -1,5 +1,4 @@
-
-import { GoogleGenAI, GenerateContentResponse, Chat, GroundingChunk, GenerateContentCandidate, Modality } from "@google/genai";
+import { GoogleGenAI, GenerateContentResponse, Chat, GroundingChunk, Modality, Content } from "@google/genai";
 import { ChatMessage } from '../types';
 
 let ai: GoogleGenAI;
@@ -34,13 +33,21 @@ export const generateText = async (model: string, prompt: string, useThinking: b
     }
 };
 
-export const createChatSession = (model: string, systemInstruction?: string): Chat => {
+export const createChatSession = (model: string, systemInstruction?: string, initialHistory?: ChatMessage[]): Chat => {
     const aiInstance = getAi();
     const config: any = {};
     if (systemInstruction) {
         config.systemInstruction = systemInstruction;
     }
-    return aiInstance.chats.create({ model, config: Object.keys(config).length > 0 ? config : undefined });
+    const params: any = { model, config: Object.keys(config).length > 0 ? config : undefined };
+    if (initialHistory && initialHistory.length > 0) {
+        // Map ChatMessage to Content type required by @google/genai for history
+        params.history = initialHistory.map(msg => ({
+            role: msg.role,
+            parts: msg.parts.map(part => ({ text: part.text }))
+        })) as Content[]; // Explicitly cast to Content[]
+    }
+    return aiInstance.chats.create(params);
 };
 
 export const streamChatMessage = (chat: Chat, message: string): Promise<AsyncGenerator<GenerateContentResponse>> => {
@@ -108,6 +115,21 @@ export const understandImage = async (prompt: string, imageBase64: string, mimeT
         return "Failed to analyze the image.";
     }
 };
+
+export const understandVideo = async (prompt: string, videoBase64: string, mimeType: string): Promise<string> => {
+    try {
+        const aiInstance = getAi();
+        const response: GenerateContentResponse = await aiInstance.models.generateContent({
+            model: 'gemini-2.5-pro', // Using Pro for complex video tasks
+            contents: { parts: [{ inlineData: { data: videoBase64, mimeType } }, { text: prompt }] },
+        });
+        return response.text;
+    } catch (error) {
+        console.error("Error understanding video:", error);
+        return "Failed to analyze the video.";
+    }
+};
+
 
 export const generateVideo = async (prompt: string, aspectRatio: '16:9' | '9:16', image?: { base64: string, mimeType: string }) => {
     try {
@@ -206,7 +228,7 @@ export const groundWithSearch = async (prompt: string): Promise<{ text: string, 
         });
 
         const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-        return { text: response.text, chunks };
+        return { text: response.text, chunks: chunks as any }; // Cast to any to reconcile type mismatch due to optional properties
     } catch (error) {
         console.error("Error with Search Grounding:", error);
         return { text: "An error occurred during the search.", chunks: [] };
@@ -233,7 +255,7 @@ export const groundWithMaps = async (prompt: string, coords: GeolocationCoordina
             },
         });
         const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-        return { text: response.text, chunks };
+        return { text: response.text, chunks: chunks as any }; // Cast to any to reconcile type mismatch due to optional properties
     } catch (error) {
         console.error("Error with Maps Grounding:", error);
         return { text: "An error occurred during the map search.", chunks: [] };

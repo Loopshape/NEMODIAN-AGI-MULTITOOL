@@ -3,6 +3,7 @@
   "description": "A powerful, all-in-one AI editor and creation suite powered by the Gemini API. Features include chat, image/video generation and analysis, real-time voice conversations, audio transcription, text-to-speech, and grounding with Google Search and Maps.",
   "requestFramePermissions": [
     "microphone",
-    "geolocation"
+    "geolocation",
+    "camera"
   ]
 }

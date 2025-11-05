@@ -12,6 +12,8 @@ import LiveConversationPanel from './feature-panels/LiveConversationPanel';
 import GroundingSearchPanel from './feature-panels/GroundingSearchPanel';
 import GroundingMapsPanel from './feature-panels/GroundingMapsPanel';
 import ThinkingModePanel from './feature-panels/ThinkingModePanel';
+import VideoUnderstandPanel from './feature-panels/VideoUnderstandPanel';
+import OrchestrationSimPanel from './feature-panels/OrchestrationSimPanel';
 
 
 interface MainContentProps {
@@ -33,6 +35,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeFeature, setStatusMessa
             return <ImageUnderstandPanel setStatusMessage={setStatusMessage} />;
         case Feature.VIDEO_GENERATE:
              return <VideoGeneratePanel setStatusMessage={setStatusMessage} />;
+        case Feature.VIDEO_UNDERSTAND:
+             return <VideoUnderstandPanel setStatusMessage={setStatusMessage} />;
         case Feature.AUDIO_TRANSCRIPTION:
              return <AudioTranscriptionPanel setStatusMessage={setStatusMessage} />;
         case Feature.TTS:
@@ -43,6 +47,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeFeature, setStatusMessa
              return <GroundingSearchPanel setStatusMessage={setStatusMessage} />;
         case Feature.GROUNDING_MAPS:
              return <GroundingMapsPanel setStatusMessage={setStatusMessage} />;
+        case Feature.ORCHESTRATION_SIM:
+            return <OrchestrationSimPanel setStatusMessage={setStatusMessage} />;
         default:
             return <div className="p-4">Select a feature from the left panel.</div>;
     }
