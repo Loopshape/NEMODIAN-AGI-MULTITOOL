@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: theme('colors.monokai.bg');
+  color: theme('colors.monokai.fg');
+  font-family: 'Fira Code', monospace;
+}
+

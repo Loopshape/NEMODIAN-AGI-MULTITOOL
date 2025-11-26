@@ -9,10 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react-markdown": "^10.1.0",
     "@google/genai": "^1.28.0",
+    "autoprefixer": "^10.4.22",
+    "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react": "^19.2.0"
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
