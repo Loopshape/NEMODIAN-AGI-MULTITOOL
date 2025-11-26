@@ -10,6 +10,9 @@ export const MODEL_VIDEO = 'veo-3.1-fast-generate-preview';
 export const MODEL_TTS = 'gemini-2.5-flash-preview-tts';
 export const MODEL_LIVE = 'gemini-2.5-flash-native-audio-preview-09-2025';
 
+export const OLLAMA_BASE_URL = 'http://localhost:11434';
+export const OLLAMA_DEFAULT_MODEL = 'line:latest';
+
 export const ASPECT_RATIOS = ["1:1", "16:9", "9:16", "4:3", "3:4"];
 export const VIDEO_ASPECT_RATIOS = ["16:9", "9:16"];
 
