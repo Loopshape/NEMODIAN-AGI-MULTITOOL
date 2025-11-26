@@ -14,6 +14,7 @@ export enum Feature {
   GROUNDING_MAPS = 'Map Search',
   THINKING_MODE = 'Complex Reasoning',
   ORCHESTRATION_SIM = 'Orchestration Sim', // Conceptual simulation
+  NEXUS_COCKPIT_3D = 'Nexus Cockpit 3D', // 3D visualization
 }
 
 export interface ChatMessage {

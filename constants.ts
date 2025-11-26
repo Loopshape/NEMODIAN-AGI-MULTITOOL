@@ -28,4 +28,5 @@ export const FEATURES_CONFIG: { id: Feature; icon: string; description: string }
     { id: Feature.GROUNDING_SEARCH, icon: '🌐', description: 'Get up-to-date answers from the web with citations.' },
     { id: Feature.GROUNDING_MAPS, icon: '🗺️', description: 'Find places and get location-based information.' },
     { id: Feature.ORCHESTRATION_SIM, icon: '🔗', description: 'Conceptual simulation of a multi-agent orchestration process.' },
+    { id: Feature.NEXUS_COCKPIT_3D, icon: '🚀', description: 'Interactive 3D cockpit for visualizing NEXUS orchestration.' },
 ];

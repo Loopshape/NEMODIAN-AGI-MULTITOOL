@@ -55,11 +55,42 @@ export const streamChatMessage = (chat: Chat, message: string): Promise<AsyncGen
 };
 
 
+export const streamText = async (prompt: string, onToken: (token: string) => void) => {
+    const chat = createChatSession('gemini-2.5-flash');
+    let cancelled = false;
+    const promise = new Promise<void>(async (resolve, reject) => {
+        try {
+            const result = await streamChatMessage(chat, prompt);
+            for await (const chunk of result) {
+                if (cancelled) {
+                    break;
+                }
+                const text = chunk.text;
+                if (text) {
+                    onToken(text);
+                }
+            }
+            resolve();
+        } catch (error) {
+            console.error("Error streaming Gemini text:", error);
+            reject(error);
+        }
+    });
+
+    return {
+        cancel: () => {
+            cancelled = true;
+            chat.destroy(); // Assuming chat object has a destroy method to clean up.
+        },
+        promise: promise
+    };
+};
+
 export const generateImage = async (prompt: string, aspectRatio: string): Promise<string | null> => {
     try {
         const aiInstance = getAi();
         const response = await aiInstance.models.generateImages({
-            model: 'imagen-4.0-generate-001',
+            model: 'gemini-2.5-flash-image',
             prompt,
             config: {
                 numberOfImages: 1,

@@ -14,7 +14,7 @@ import GroundingMapsPanel from './feature-panels/GroundingMapsPanel';
 import ThinkingModePanel from './feature-panels/ThinkingModePanel';
 import VideoUnderstandPanel from './feature-panels/VideoUnderstandPanel';
 import OrchestrationSimPanel from './feature-panels/OrchestrationSimPanel';
-
+import MultiToolUI from './MultiToolUI'; // Import MultiToolUI
 
 interface MainContentProps {
     activeFeature: Feature;
@@ -49,6 +49,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeFeature, setStatusMessa
              return <GroundingMapsPanel setStatusMessage={setStatusMessage} />;
         case Feature.ORCHESTRATION_SIM:
             return <OrchestrationSimPanel setStatusMessage={setStatusMessage} />;
+        case Feature.NEXUS_COCKPIT_3D:
+            return <MultiToolUI />;
         default:
             return <div className="p-4">Select a feature from the left panel.</div>;
     }

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-color: theme('colors.monokai.bg');
-  color: theme('colors.monokai.fg');
+  background-color: #272822;
+  color: #f8f8f2;
   font-family: 'Fira Code', monospace;
 }
 

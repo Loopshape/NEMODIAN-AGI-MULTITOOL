@@ -1,33 +1,48 @@
-// src/components/NexusEngineSelector.tsx
 import React from "react";
 import { useNexus } from "../context/NexusContext";
-import { NexusMode } from "../services/NexusRouter";
+import { NexusMode, NexusHybridMode } from "../services/NexusRouter";
 
-const modes: { label: string; value: NexusMode }[] = [
-  { label: "Gemini", value: "gemini" },
-  { label: "Ollama", value: "ollama" },
-  { label: "Hybrid: Sequential", value: "hybrid_seq" },
-  { label: "Hybrid: Parallel", value: "hybrid_parallel" },
-  { label: "Hybrid: Adversarial", value: "hybrid_adv" }
+interface ModeOption {
+    label: string;
+    mode: NexusMode;
+    hybridMode?: NexusHybridMode;
+}
+
+const modes: ModeOption[] = [
+    { label: "Ollama", mode: NexusMode.OLLAMA },
+    { label: "Gemini", mode: NexusMode.GEMINI },
+    { label: "Sequential", mode: NexusMode.HYBRID, hybridMode: NexusHybridMode.SEQUENTIAL },
+    { label: "Parallel", mode: NexusMode.HYBRID, hybridMode: NexusHybridMode.PARALLEL },
+    { label: "Adversarial", mode: NexusMode.HYBRID, hybridMode: NexusHybridMode.ADVERSARIAL },
 ];
 
 export default function NexusEngineSelector() {
-  const { mode, setMode } = useNexus();
+    const { mode, hybridMode, setMode, setHybridMode } = useNexus();
 
-  return (
-    <div className="flex gap-2 flex-wrap p-2">
-      {modes.map(m => (
-        <button
-          key={m.value}
-          onClick={() => setMode(m.value)}
-          className={`px-3 py-1 rounded border text-sm ${
-            mode === m.value ? "bg-blue-600 text-white" : "bg-gray-100"
-          }`}
-        >
-          {m.label}
-        </button>
-      ))}
-    </div>
-  );
+    const handleModeChange = (selected: ModeOption) => {
+        setMode(selected.mode);
+        if (selected.mode === NexusMode.HYBRID) {
+            setHybridMode(selected.hybridMode);
+        } else {
+            setHybridMode(undefined);
+        }
+    };
+
+    return (
+        <div className="flex gap-2 flex-wrap p-2">
+            {modes.map(m => {
+                const isActive = mode === m.mode && (m.mode !== NexusMode.HYBRID || hybridMode === m.hybridMode);
+                return (
+                    <button
+                        key={m.label}
+                        onClick={() => handleModeChange(m)}
+                        className={`px-3 py-1 rounded border text-sm ${isActive ? "bg-blue-600 text-white" : "bg-gray-700"}`}
+                    >
+                        {m.label}
+                    </button>
+                )
+            })}
+        </div>
+    );
 }
 

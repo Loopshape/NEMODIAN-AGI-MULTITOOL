@@ -1,0 +1,51 @@
+{
+  "cube": {
+    "runs": 1,
+    "applied": 1,
+    "total_bytes": 138,
+    "avg_latency": 191524,
+    "score": 37
+  },
+  "core": {
+    "runs": 0,
+    "applied": 0,
+    "total_bytes": 0,
+    "avg_latency": 0,
+    "score": 0
+  },
+  "loop": {
+    "runs": 1,
+    "applied": 1,
+    "total_bytes": 122,
+    "avg_latency": 232260,
+    "score": 74
+  },
+  "wave": {
+    "runs": 1,
+    "applied": 1,
+    "total_bytes": 350,
+    "avg_latency": 57291,
+    "score": 76
+  },
+  "line": {
+    "runs": 1,
+    "applied": 1,
+    "total_bytes": 51,
+    "avg_latency": 199558,
+    "score": 52
+  },
+  "coin": {
+    "runs": 1,
+    "applied": 1,
+    "total_bytes": 322,
+    "avg_latency": 277768,
+    "score": 3
+  },
+  "code": {
+    "runs": 1,
+    "applied": 1,
+    "total_bytes": 358,
+    "avg_latency": 88029,
+    "score": 70
+  }
+}
