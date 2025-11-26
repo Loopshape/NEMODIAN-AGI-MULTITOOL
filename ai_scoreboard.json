@@ -7,11 +7,11 @@
     "score": 37
   },
   "core": {
-    "runs": 0,
-    "applied": 0,
-    "total_bytes": 0,
-    "avg_latency": 0,
-    "score": 0
+    "runs": 1,
+    "applied": 1,
+    "total_bytes": 67,
+    "avg_latency": 333758,
+    "score": 3
   },
   "loop": {
     "runs": 1,
